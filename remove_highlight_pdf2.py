@@ -93,9 +93,17 @@ def images_to_pdf(image_list, output_pdf):
     pdf = FPDF()
 
     # Add pages to the PDF using the images in the image list
-    for image in image_list:
+    for i, image in enumerate(image_list):
+        # Save the image to a temporary file
+        image_path = f"temp_image_{i}.jpg"
+        cv2.imwrite(image_path, image)
+
+        # Add the image to the PDF
         pdf.add_page()
-        pdf.image(image, x=0, y=0, w=210, h=297)  # Assuming A4 size (210x297 mm)
+        pdf.image(image_path, x=0, y=0, w=210, h=297)  # Assuming A4 size (210x297 mm)
+
+        # Remove the temporary image file
+        os.remove(image_path)
 
     # Save the PDF
     pdf.output(output_pdf)
