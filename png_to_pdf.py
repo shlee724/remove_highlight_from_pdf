@@ -1,7 +1,7 @@
 from fpdf import FPDF
 import os
 
-def jpg_to_pdf(input_folder, output_pdf):
+def png_to_pdf(input_folder, output_pdf):
     # Create FPDF instance
     pdf = FPDF()
 
@@ -24,4 +24,4 @@ def jpg_to_pdf(input_folder, output_pdf):
 input_folder="test files/output_images"
 output_pdf = "test files/output_pdf.pdf"
 
-jpg_to_pdf(input_folder, output_pdf)
+png_to_pdf(input_folder, output_pdf)
