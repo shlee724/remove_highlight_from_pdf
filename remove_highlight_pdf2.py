@@ -46,15 +46,22 @@ def pdf_to_high_quality_jpg(input_pdf, dpi=300):
 
 
 def remove_highlight(img):
+    # Convert pixmap to numpy array
+    img_np = np.frombuffer(img.samples, dtype=np.uint8)
+
+    # Determine the shape of the image
+    height = img.height
+    width = img.width
+    channels = 3  # Assuming RGB format
+
+    # Reshape the numpy array to the correct shape
+    img_np = img_np.reshape((height, width, channels))
+
     # Convert from BGR to HSV
-    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    img_hsv = cv2.cvtColor(img_np, cv2.COLOR_BGR2HSV)
+
     # Extract the V channel
     out_img = img_hsv[:,:,2]
-
-    # Display the image
-    #cv2.imshow('output_image', out_img)
-    #cv2.waitKey(0)
-    #cv2.imwrite('output.jpg', out_img)
 
     return out_img
 
