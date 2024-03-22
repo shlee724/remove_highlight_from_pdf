@@ -47,17 +47,21 @@ def remove_highlight(img):
     # Determine the shape of the image
     height = img.height
     width = img.width
-    channels = 3  # Assuming RGB format
+    channels = 3  # Assuming RGBA format
 
     # Reshape the numpy array to the correct shape
     img_np = img_np.reshape((height, width, channels))
 
-    # Convert from BGR to HSV
-    img_gray = cv2.cvtColor(img_np, cv2.COLOR_BGR2HSV)
+    # Convert from RGBA to grayscale
+    img_gray = cv2.cvtColor(img_np, cv2.COLOR_RGBA2GRAY)
 
-    gaus = cv2.adaptiveThreshold(img_gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 8)
+    # Apply adaptive thresholding
+    _, gaus = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    __, otsu = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
-    return gaus
+    return otsu
+
+
 
 
 def images_to_pdf(image_list, output_pdf):
