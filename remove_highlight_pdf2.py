@@ -5,9 +5,19 @@ import fitz  # PyMuPDF
 from fpdf import FPDF
 import os
 
+def remove_highlight_pdf_main(input_pdf):
+    jpg_list = pdf_to_high_quality_jpg(input_pdf)
+
+    i = 0
+    for image in jpg_list:
+        jpg_list[i] = remove_highlight(image)
+        i += 1
+    
+
 def pdf_to_high_quality_jpg(input_pdf, output_folder, dpi=300):
     # Open the PDF
     doc = fitz.open(input_pdf)
+    image_list = []
 
     # Iterate through each page
     for page_num in range(len(doc)):
@@ -21,12 +31,16 @@ def pdf_to_high_quality_jpg(input_pdf, output_folder, dpi=300):
         # Render the page as an image
         pix = page.get_pixmap(matrix=mat)
 
+        """
         # Save the image as JPG
         image_filename = f"{output_folder}/page_{page_num + 1}.jpg"
         pix._writeIMG(image_filename,"jpg", dpi)
+        """
+        image_list.add(pix)
 
     # Close the PDF
     doc.close()
+    return image_list
 
 
 def remove_highlight(img):
@@ -34,13 +48,16 @@ def remove_highlight(img):
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     # Extract the V channel
     out_img = img_hsv[:,:,2]
+
     # Display the image
-    cv2.imshow('output_image', out_img)
-    cv2.waitKey(0)
-    cv2.imwrite('output.jpg', out_img)
+    #cv2.imshow('output_image', out_img)
+    #cv2.waitKey(0)
+    #cv2.imwrite('output.jpg', out_img)
+
+    return out_img
 
 
-def jpg_to_pdf(input_folder, output_pdf):
+def jpg_to_pdf(input_list, output_pdf):
     # Create FPDF instance
     pdf = FPDF()
 
