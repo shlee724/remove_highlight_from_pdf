@@ -1,0 +1,4 @@
+test files/**/output_images/*.JPG
+test files/output_image.jpg
+test files/**/*.png
+test files/output_pdf.pdf
