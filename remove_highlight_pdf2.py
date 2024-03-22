@@ -33,11 +33,6 @@ def pdf_to_high_quality_jpg(input_pdf, dpi=300):
         # Render the page as an image
         pix = page.get_pixmap(matrix=mat)
 
-        """
-        # Save the image as JPG
-        image_filename = f"{output_folder}/page_{page_num + 1}.jpg"
-        pix._writeIMG(image_filename,"jpg", dpi)
-        """
         image_list.append(pix)
 
     # Close the PDF
@@ -64,28 +59,6 @@ def remove_highlight(img):
     out_img = img_hsv[:,:,2]
 
     return out_img
-
-"""
-def jpg_to_pdf(input_list, output_pdf):
-    # Create FPDF instance
-    pdf = FPDF()
-
-    # Iterate through each file in the input folder
-    for filename in sorted(os.listdir(input_folder)):
-        if filename.endswith(".png"):
-            try:
-                # Add a page to the PDF
-                pdf.add_page()
-
-                # Set image format and add image to PDF
-                pdf.image(os.path.join(input_folder, filename), x=0, y=0, w=210, h=297)  # Assuming A4 size (210x297 mm)
-            except Exception as e:
-                print(f"Error processing {filename}: {e}")
-                continue
-
-    # Save the PDF
-    pdf.output(output_pdf)
-"""
 
 
 def images_to_pdf(image_list, output_pdf):
