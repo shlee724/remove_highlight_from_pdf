@@ -56,10 +56,10 @@ def remove_highlight(img):
     img_gray = cv2.cvtColor(img_np, cv2.COLOR_RGBA2GRAY)
 
     # Apply adaptive thresholding
-    _, gaus = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    gaus = cv2.adaptiveThreshold(img_gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 8)
     __, otsu = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
-    return otsu
+    return gaus
 
 
 
